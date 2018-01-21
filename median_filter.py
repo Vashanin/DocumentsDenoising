@@ -2,6 +2,7 @@ import numpy as np
 import loader
 import matplotlib.pyplot as plt
 import scipy.signal
+from sklearn import metrics
 
 
 class MedianFilter:
@@ -46,10 +47,6 @@ class MedianFilter:
 
         return self.cleaned_image
 
-
-def main():
-    mf = MedianFilter(file_path="./test/214.png")
-    mf.find_background(kernel_size=5)
-    mf.run(save_to_file=True, dir="./214", name="median_filter.png")
-
-main()
+    @staticmethod
+    def get_rmse(true_image, prediction):
+        return metrics.mean_squared_error(true_image, prediction)

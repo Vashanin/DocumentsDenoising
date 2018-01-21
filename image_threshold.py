@@ -1,5 +1,5 @@
 import numpy as np
-from sklearn import cluster
+from sklearn import cluster, metrics
 import loader
 from skimage import filters
 
@@ -18,18 +18,16 @@ class ImageThreshold:
 
         binary_adaptive = np.ones((self.width, self.height))
         for i in range(self.width):
-            for j in range(self.width):
+            for j in range(self.height):
                 if self.image_matrix[i][j] < adaptive_thresh[i][j]:
-                    binary_adaptive[i][j] = 0
+                    binary_adaptive[i][j] = self.image_matrix[i][j]
+                else:
+                    binary_adaptive[i][j] = 1
 
         if save_to_file:
             loader.save_to_file(kwargs["dir"], kwargs["name"], binary_adaptive.reshape((self.width, self.height)))
 
         return binary_adaptive
 
-
-def main():
-    image_thresholder = ImageThreshold(file_path="./test/214.png")
-    image_thresholder.run(block_size=31, dir="./214", name="threshold.png")
-
-main()
+    def get_rmse(self, prediction):
+        return metrics.mean_squared_error(self.image_matrix, prediction)

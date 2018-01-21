@@ -61,14 +61,3 @@ class LinearModel:
             cleaned_image = np.asarray(list(map(lambda item: LinearModel._filter_output(item), cleaned_image)))
 
             loader.save_to_file("./test_cleaned/linear_model/", name, cleaned_image.reshape((width, height)))
-
-
-def main():
-    train_path = "143.png"
-    test_dir = "./test"
-
-    lm = LinearModel(alpha=0.1)
-    lm.train(train_path=train_path)
-    lm.run(test_dir=test_dir)
-
-main()
