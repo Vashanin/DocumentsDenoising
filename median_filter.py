@@ -16,7 +16,7 @@ class MedianFilter:
         self.background = None
         self.cleaned_image = np.ones((self.width, self.height))
 
-    def find_background(self, kernel_size, save_to_file=False, **kwargs):
+    def find_background(self, kernel_size=5, save_to_file=False, **kwargs):
         self.background = scipy.signal.medfilt(self.image_matrix, kernel_size)
 
         if save_to_file:
@@ -24,7 +24,7 @@ class MedianFilter:
 
         return self.background
 
-    def remove_background(self, save_to_file=False, **kwargs):
+    def run(self, save_to_file=False, **kwargs):
         if self.background is None:
             self.find_background()
 
@@ -50,6 +50,6 @@ class MedianFilter:
 def main():
     mf = MedianFilter(file_path="./test/214.png")
     mf.find_background(kernel_size=5)
-    mf.remove_background(save_to_file=True, dir="./214", name="median_filter.png")
+    mf.run(save_to_file=True, dir="./214", name="median_filter.png")
 
 main()
