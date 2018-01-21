@@ -31,11 +31,15 @@ class LinearModel:
         if show_plot:
             plt.figure(figsize=(20, 20))
 
+            plt.subplots_adjust(left=0.045, right=0.99, top=0.92, bottom=0.1)
+
             plt.xlim((0.0, 1.0))
             plt.ylim((0.0, 1.0))
 
-            plt.scatter(train_set, cleaned_set, s=1)
+            plt.scatter(train_set, cleaned_set, s=3)
             plt.plot([0, 1], self.linear_regression.predict([[0.0], [1.0]]), color="red")
+
+            plt.savefig("./graph.png")
 
             plt.show()
 

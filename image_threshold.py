@@ -31,3 +31,4 @@ class ImageThreshold:
 
     def get_rmse(self, prediction):
         return metrics.mean_squared_error(self.image_matrix, prediction)
+
