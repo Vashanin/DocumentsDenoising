@@ -3,10 +3,9 @@ import loader
 import matplotlib.pyplot as plt
 import scipy.signal
 
-class MedianFilter:
-    def __init__(self, file_path, kernel_size=17):
-        self.kernel_size = kernel_size
 
+class MedianFilter:
+    def __init__(self, file_path):
         image_vector, width, height = loader.image_to_vector(file_path)
 
         self.image_vector = image_vector
@@ -17,8 +16,8 @@ class MedianFilter:
         self.background = None
         self.cleaned_image = np.ones((self.width, self.height))
 
-    def find_background(self, save_to_file=False, **kwargs):
-        self.background = scipy.signal.medfilt(self.image_matrix, self.kernel_size)
+    def find_background(self, kernel_size, save_to_file=False, **kwargs):
+        self.background = scipy.signal.medfilt(self.image_matrix, kernel_size)
 
         if save_to_file:
             loader.save_to_file(kwargs["dir"], kwargs["name"], self.background.reshape((self.width, self.height)))
@@ -41,7 +40,6 @@ class MedianFilter:
         m2 = max(foreground.reshape(self.image_vector.shape))
 
         foreground = (foreground - m1) / (m2 - m1)
-        print(foreground)
 
         if save_to_file:
             loader.save_to_file(kwargs["dir"], kwargs["name"], foreground.reshape((self.width, self.height)))
@@ -50,8 +48,8 @@ class MedianFilter:
 
 
 def main():
-    mf = MedianFilter(file_path="./train/2.png")
-    mf.find_background()
-    mf.remove_background(save_to_file=True, dir="./", name="lets_try.png")
+    mf = MedianFilter(file_path="./test/214.png")
+    mf.find_background(kernel_size=5)
+    mf.remove_background(save_to_file=True, dir="./214", name="median_filter.png")
 
 main()
